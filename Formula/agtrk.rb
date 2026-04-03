@@ -9,6 +9,11 @@ class Agtrk < Formula
 
   depends_on "python@3.14"
 
+  resource "uv-build" do
+    url "https://files.pythonhosted.org/packages/d7/44/ca32e1a982ddfc8fd5aaae6f3d49464a2787352625f81ecd8e783408df5a/uv_build-0.11.3.tar.gz"
+    sha256 "4aa46d8a00a7f3581ceb531237627c08e9ef0601d71cbb054033b6f3b349ec8f"
+  end
+
   resource "annotated-doc" do
     url "https://files.pythonhosted.org/packages/57/ba/046ceea27344560984e26a590f90bc7f4a75b06701f653222458922b558c/annotated_doc-0.0.4.tar.gz"
     sha256 "fbcda96e87e9c92ad167c2e53839e57503ecfda18804ea28102353485033faa4"
