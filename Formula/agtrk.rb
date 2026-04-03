@@ -10,8 +10,20 @@ class Agtrk < Formula
   depends_on "python@3.14"
 
   resource "uv-build" do
-    url "https://files.pythonhosted.org/packages/d7/44/ca32e1a982ddfc8fd5aaae6f3d49464a2787352625f81ecd8e783408df5a/uv_build-0.11.3.tar.gz"
-    sha256 "4aa46d8a00a7f3581ceb531237627c08e9ef0601d71cbb054033b6f3b349ec8f"
+    on_macos do
+      on_arm do
+        url "https://files.pythonhosted.org/packages/f1/0a/6e2a1dc681773cdcf390edf635e7308555edec90636c658f1dc397a34cb6/uv_build-0.11.3-py3-none-macosx_11_0_arm64.whl"
+        sha256 "fbc000b85aa43e14d8f568a9b1755164efba3ce6f2633b35f2d4e70c044add69"
+      end
+      on_intel do
+        url "https://files.pythonhosted.org/packages/0a/fc/fa7672156fc3fe84d8bf0e0cfc35908439a3182e0f22ef74c923252b11bd/uv_build-0.11.3-py3-none-macosx_10_12_x86_64.whl"
+        sha256 "9187f9995bd86c72acad8e10364368b78ba464daf13d26b66040b602545c4338"
+      end
+    end
+    on_linux do
+      url "https://files.pythonhosted.org/packages/c3/4b/013a396c780c8eb7a0588453defbd0d68bd827ad2d159fe13ab7ae43933f/uv_build-0.11.3-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+      sha256 "65d7446fb550a65e7b0bc716613aac1a32603081510d45c6f1e8a35051383682"
+    end
   end
 
   resource "annotated-doc" do
