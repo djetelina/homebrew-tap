@@ -9,29 +9,6 @@ class Cheznav < Formula
 
   depends_on "python@3.14"
 
-  resource "uv-build" do
-    on_macos do
-      on_arm do
-        url "https://files.pythonhosted.org/packages/f1/0a/6e2a1dc681773cdcf390edf635e7308555edec90636c658f1dc397a34cb6/uv_build-0.11.3-py3-none-macosx_11_0_arm64.whl"
-        sha256 "fbc000b85aa43e14d8f568a9b1755164efba3ce6f2633b35f2d4e70c044add69"
-      end
-      on_intel do
-        url "https://files.pythonhosted.org/packages/0a/fc/fa7672156fc3fe84d8bf0e0cfc35908439a3182e0f22ef74c923252b11bd/uv_build-0.11.3-py3-none-macosx_10_12_x86_64.whl"
-        sha256 "9187f9995bd86c72acad8e10364368b78ba464daf13d26b66040b602545c4338"
-      end
-    end
-    on_linux do
-      on_arm do
-        url "https://files.pythonhosted.org/packages/d8/fc/d92d5e4d2657d4572991d0bfddbcadb2ec79a63658a2123df8d52382af06/uv_build-0.11.3-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.musllinux_1_1_aarch64.whl"
-        sha256 "a04b48802d9feaa27b8e29c37bca316449be1fdcf3ffa7b8d039269dccf83a99"
-      end
-      on_intel do
-        url "https://files.pythonhosted.org/packages/c3/4b/013a396c780c8eb7a0588453defbd0d68bd827ad2d159fe13ab7ae43933f/uv_build-0.11.3-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-        sha256 "65d7446fb550a65e7b0bc716613aac1a32603081510d45c6f1e8a35051383682"
-      end
-    end
-  end
-
   resource "linkify-it-py" do
     url "https://files.pythonhosted.org/packages/2e/c9/06ea13676ef354f0af6169587ae292d3e2406e212876a413bf9eece4eb23/linkify_it_py-2.1.0.tar.gz"
     sha256 "43360231720999c10e9328dc3691160e27a718e280673d444c38d7d3aaa3b98b"
@@ -83,7 +60,10 @@ class Cheznav < Formula
   end
 
   def install
-    virtualenv_install_with_resources
+    venv = virtualenv_create(libexec, "python3.14")
+    venv.pip_install "uv-build"
+    venv.pip_install resources
+    venv.pip_install_and_link buildpath
   end
 
   test do
