@@ -7,8 +7,8 @@ class Cheznav < Formula
   sha256 "797395d4076fa8015f11fdb118ce9e3af1f4d562a81d2cce946cb972e274a34e"
   license "MIT"
 
-  depends_on "python@3.14"
   depends_on "rust" => :build
+  depends_on "python@3.14"
 
   resource "linkify-it-py" do
     url "https://files.pythonhosted.org/packages/2e/c9/06ea13676ef354f0af6169587ae292d3e2406e212876a413bf9eece4eb23/linkify_it_py-2.1.0.tar.gz"
