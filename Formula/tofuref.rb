@@ -1,7 +1,7 @@
 class Tofuref < Formula
   include Language::Python::Virtualenv
 
-  desc "TUI for the OpenTofu provider registry"
+  desc "TUI reference for OpenTofu providers"
   homepage "https://github.com/djetelina/tofuref"
   url "https://files.pythonhosted.org/packages/80/71/c86c0806858b6c1b58b6c05570bc88f130de8872e0478bd43cb51dab0f6a/tofuref-1.8.0.tar.gz"
   sha256 "347a64743ad076707fb1668de36e09323f58aa246c4f65381091add74014c4c9"
