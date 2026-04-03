@@ -21,8 +21,14 @@ class Cheznav < Formula
       end
     end
     on_linux do
-      url "https://files.pythonhosted.org/packages/c3/4b/013a396c780c8eb7a0588453defbd0d68bd827ad2d159fe13ab7ae43933f/uv_build-0.11.3-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-      sha256 "65d7446fb550a65e7b0bc716613aac1a32603081510d45c6f1e8a35051383682"
+      on_arm do
+        url "https://files.pythonhosted.org/packages/d8/fc/d92d5e4d2657d4572991d0bfddbcadb2ec79a63658a2123df8d52382af06/uv_build-0.11.3-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.musllinux_1_1_aarch64.whl"
+        sha256 "a04b48802d9feaa27b8e29c37bca316449be1fdcf3ffa7b8d039269dccf83a99"
+      end
+      on_intel do
+        url "https://files.pythonhosted.org/packages/c3/4b/013a396c780c8eb7a0588453defbd0d68bd827ad2d159fe13ab7ae43933f/uv_build-0.11.3-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+        sha256 "65d7446fb550a65e7b0bc716613aac1a32603081510d45c6f1e8a35051383682"
+      end
     end
   end
 
