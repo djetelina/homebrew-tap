@@ -1,14 +1,18 @@
-class Tofuref < Formula
+class Agtrk < Formula
   include Language::Python::Virtualenv
 
-  desc "TUI for the OpenTofu provider registry"
-  homepage "https://github.com/djetelina/tofuref"
-  url "https://files.pythonhosted.org/packages/80/71/c86c0806858b6c1b58b6c05570bc88f130de8872e0478bd43cb51dab0f6a/tofuref-1.8.0.tar.gz"
-  sha256 "347a64743ad076707fb1668de36e09323f58aa246c4f65381091add74014c4c9"
+  desc "CLI tool for maintaining continuity across Claude Code conversations"
+  homepage "https://github.com/djetelina/agtrk"
+  url "https://files.pythonhosted.org/packages/81/53/b68c3730b384f4352aaad6231bacec9c23db34a4523d6bfcb4f4402f0c3f/agtrk-1.3.0.tar.gz"
+  sha256 "8238547887149c2e8400ae634ecbf503058bc3e30321d629c703d5c19663f7d0"
   license "MIT"
 
-  depends_on "libyaml"
   depends_on "python@3.14"
+
+  resource "annotated-doc" do
+    url "https://files.pythonhosted.org/packages/57/ba/046ceea27344560984e26a590f90bc7f4a75b06701f653222458922b558c/annotated_doc-0.0.4.tar.gz"
+    sha256 "fbcda96e87e9c92ad167c2e53839e57503ecfda18804ea28102353485033faa4"
+  end
 
   resource "anyio" do
     url "https://files.pythonhosted.org/packages/19/14/2c5dd9f512b66549ae92767a9c7b330ae88e1932ca57876909410251fe13/anyio-4.13.0.tar.gz"
@@ -80,24 +84,24 @@ class Tofuref < Formula
     sha256 "6757cd03768053ff99f3039c1a36d6c0aa0b263438fcab17520b30a303a82b5f"
   end
 
-  resource "python-frontmatter" do
-    url "https://files.pythonhosted.org/packages/96/de/910fa208120314a12f9a88ea63e03707261692af782c99283f1a2c8a5e6f/python-frontmatter-1.1.0.tar.gz"
-    sha256 "7118d2bd56af9149625745c58c9b51fb67e8d1294a0c76796dafdc72c36e5f6d"
-  end
-
-  resource "pyyaml" do
-    url "https://files.pythonhosted.org/packages/05/8e/961c0007c59b8dd7729d542c61a4d537767a59645b82a0b521206e1e25c2/pyyaml-6.0.3.tar.gz"
-    sha256 "d76623373421df22fb4cf8817020cbb7ef15c725b9d5e45f17e189bfc384190f"
-  end
-
   resource "rich" do
     url "https://files.pythonhosted.org/packages/b3/c6/f3b320c27991c46f43ee9d856302c70dc2d0fb2dba4842ff739d5f46b393/rich-14.3.3.tar.gz"
     sha256 "b8daa0b9e4eef54dd8cf7c86c03713f53241884e814f4e2f5fb342fe520f639b"
   end
 
+  resource "shellingham" do
+    url "https://files.pythonhosted.org/packages/58/15/8b3609fd3830ef7b27b655beb4b4e9c62313a4e8da8c676e142cc210d58e/shellingham-1.5.4.tar.gz"
+    sha256 "8dbca0739d487e5bd35ab3ca4b36e11c4078f3a234bfce294b0a0291363404de"
+  end
+
   resource "textual" do
     url "https://files.pythonhosted.org/packages/69/b0/a9aedf13af1bfb1bf01cbc645ea5d5a4151b5d77ac1748b85c4f0d777d7d/textual-8.2.2.tar.gz"
     sha256 "94e85267650cf679ac16ade5ac929055e836dc00798a0e6e3925926a5beee303"
+  end
+
+  resource "typer" do
+    url "https://files.pythonhosted.org/packages/f5/24/cb09efec5cc954f7f9b930bf8279447d24618bb6758d4f6adf2574c41780/typer-0.24.1.tar.gz"
+    sha256 "e39b4732d65fbdcde189ae76cf7cd48aeae72919dea1fdfc16593be016256b45"
   end
 
   resource "typing-extensions" do
@@ -110,17 +114,11 @@ class Tofuref < Formula
     sha256 "c53691e495c8db60e16ffc4861a35469b0ba0821fe409a8a7a0a71864d33a811"
   end
 
-  resource "yaucl" do
-    url "https://files.pythonhosted.org/packages/fc/04/ce4d1a97cab0ed8cafbc47686cc6b351ffe55e40fdb1744ea054e78c9574/yaucl-0.2.0.tar.gz"
-    sha256 "09872bd16c3a588bae89eb50f1819b455b9b53d51ae9b010ce4250f6a7ee6647"
-  end
-
   def install
     virtualenv_install_with_resources
   end
 
   test do
-    version_output = shell_output("#{libexec}/bin/python -c 'import tofuref; print(tofuref.__version__)'").strip
-    assert_equal version.to_s, version_output
+    assert_match version.to_s, shell_output("#{bin}/agtrk --version")
   end
 end
