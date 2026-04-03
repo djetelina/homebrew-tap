@@ -8,6 +8,7 @@ class Agtrk < Formula
   license "MIT"
 
   depends_on "python@3.14"
+  depends_on "rust" => :build
 
   resource "annotated-doc" do
     url "https://files.pythonhosted.org/packages/57/ba/046ceea27344560984e26a590f90bc7f4a75b06701f653222458922b558c/annotated_doc-0.0.4.tar.gz"
@@ -115,10 +116,7 @@ class Agtrk < Formula
   end
 
   def install
-    venv = virtualenv_create(libexec, "python3.14")
-    venv.pip_install "uv-build"
-    venv.pip_install resources
-    venv.pip_install_and_link buildpath
+    virtualenv_install_with_resources
   end
 
   test do

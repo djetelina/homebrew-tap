@@ -8,6 +8,7 @@ class Cheznav < Formula
   license "MIT"
 
   depends_on "python@3.14"
+  depends_on "rust" => :build
 
   resource "linkify-it-py" do
     url "https://files.pythonhosted.org/packages/2e/c9/06ea13676ef354f0af6169587ae292d3e2406e212876a413bf9eece4eb23/linkify_it_py-2.1.0.tar.gz"
@@ -60,10 +61,7 @@ class Cheznav < Formula
   end
 
   def install
-    venv = virtualenv_create(libexec, "python3.14")
-    venv.pip_install "uv-build"
-    venv.pip_install resources
-    venv.pip_install_and_link buildpath
+    virtualenv_install_with_resources
   end
 
   test do
