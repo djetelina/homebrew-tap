@@ -10,7 +10,7 @@ jobs:
   test-bot:
     strategy:
       matrix:
-        os: [macos-15, macos-13, ubuntu-latest]
+        os: [macos-15, macos-14, ubuntu-latest]
         include:
           - os: ubuntu-latest
             container:
