@@ -7,6 +7,14 @@ class Agtrk < Formula
   sha256 "8238547887149c2e8400ae634ecbf503058bc3e30321d629c703d5c19663f7d0"
   license "MIT"
 
+  bottle do
+    root_url "https://github.com/djetelina/homebrew-tap/releases/download/agtrk-1.3.0"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "5fcc99086f61146818f753022657355c5c1b1d20e3d2c8742d54703a94eb77fd"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "54ac0996f3640f50e9077205350530eef2e00838a0ae110b45afd1ed0055e04e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "370f82f5d0365d82c36c406af92a75f9fe9c617d77c991ab419e892103b559a8"
+  end
+
   depends_on "rust" => :build
   depends_on "python@3.14"
 
