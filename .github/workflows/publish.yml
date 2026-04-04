@@ -32,9 +32,11 @@ jobs:
         uses: Homebrew/actions/git-try-push@master
         with:
           branch: main
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete branch
         if: github.event.pull_request.head.repo.fork == false
         env:
           BRANCH: ${{ github.event.pull_request.head.ref }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: git push --delete origin "$BRANCH"
