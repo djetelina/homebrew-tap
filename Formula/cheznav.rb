@@ -3,17 +3,9 @@ class Cheznav < Formula
 
   desc "TUI for chezmoi"
   homepage "https://github.com/DJetelina/cheznav"
-  url "https://files.pythonhosted.org/packages/1b/44/ea4b7f8ec57adcf15fd3c7031233ddd99c487c5029aac75f4854c6461404/cheznav-0.1.1.tar.gz"
-  sha256 "797395d4076fa8015f11fdb118ce9e3af1f4d562a81d2cce946cb972e274a34e"
+  url "https://files.pythonhosted.org/packages/f0/a3/2e36bc4192d52d688ebaa458ee408ccc8cfe58e365ad89b332e4bd5b7867/cheznav-0.2.0.tar.gz"
+  sha256 "ad23c0b0ada3dae431a5286bdb5fb07998ead376b6e4465bca0c43521bcd5bb8"
   license "MIT"
-
-  bottle do
-    root_url "https://github.com/djetelina/homebrew-tap/releases/download/cheznav-0.1.1"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "0ce78879a983203b6a3257d9c40c484779863501db6e54cc0b909aad68734b81"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "2a7e8ded9a47238b072d35381c785c6d3eb4aea024a74aa36aecf6d96757b84a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d09f4d74cc632ddb394f5c074f7f8cbf07325ef53ae96c739e246be9afb8baae"
-  end
 
   depends_on "rust" => :build
   depends_on "python@3.14"
@@ -39,8 +31,8 @@ class Cheznav < Formula
   end
 
   resource "platformdirs" do
-    url "https://files.pythonhosted.org/packages/19/56/8d4c30c8a1d07013911a8fdbd8f89440ef9f08d07a1b50ab8ca8be5a20f9/platformdirs-4.9.4.tar.gz"
-    sha256 "1ec356301b7dc906d83f371c8f487070e99d3ccf9e501686456394622a01a934"
+    url "https://files.pythonhosted.org/packages/9f/4a/0883b8e3802965322523f0b200ecf33d31f10991d0401162f4b23c698b42/platformdirs-4.9.6.tar.gz"
+    sha256 "3bfa75b0ad0db84096ae777218481852c0ebc6c727b3168c1b9e0118e458cf0a"
   end
 
   resource "pygments" do
@@ -54,8 +46,8 @@ class Cheznav < Formula
   end
 
   resource "textual" do
-    url "https://files.pythonhosted.org/packages/69/b0/a9aedf13af1bfb1bf01cbc645ea5d5a4151b5d77ac1748b85c4f0d777d7d/textual-8.2.2.tar.gz"
-    sha256 "94e85267650cf679ac16ade5ac929055e836dc00798a0e6e3925926a5beee303"
+    url "https://files.pythonhosted.org/packages/cf/2f/d44f0f12b3ddb1f0b88f7775652e99c6b5a43fd733badf4ce064bdbfef4a/textual-8.2.3.tar.gz"
+    sha256 "beea7b86b03b03558a2224f0cc35252e60ef8b0c4353b117b2f40972902d976a"
   end
 
   resource "typing-extensions" do
