@@ -6,6 +6,7 @@ class Cheznav < Formula
   url "https://files.pythonhosted.org/packages/f0/a3/2e36bc4192d52d688ebaa458ee408ccc8cfe58e365ad89b332e4bd5b7867/cheznav-0.2.0.tar.gz"
   sha256 "ad23c0b0ada3dae431a5286bdb5fb07998ead376b6e4465bca0c43521bcd5bb8"
   license "MIT"
+  revision 1
 
   depends_on "rust" => :build
   depends_on "python@3.14"
