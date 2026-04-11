@@ -8,6 +8,13 @@ class Cheznav < Formula
   license "MIT"
   revision 1
 
+  bottle do
+    root_url "https://github.com/djetelina/homebrew-tap/releases/download/cheznav-0.2.0_1"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "b466a32140bc1a29e8a64395d647932c7e0320ce562f6cde4ae064c0fb766e5a"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:  "d8e69e571a40d873f49581701099508131408f632fb2cdb8b13a882c62f650fe"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "159f4da7f59c6871c531f7ead76ab742d35c054b92f3fac5d9fd9596e2c6ae66"
+  end
+
   depends_on "rust" => :build
   depends_on "python@3.14"
 
