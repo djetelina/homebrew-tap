@@ -6,110 +6,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-updates:
+  bump:
     runs-on: macos-latest
     permissions:
       contents: write
       pull-requests: write
     steps:
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
-      - name: Check for PyPI updates and create PRs
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Discover formulae
+        id: discover
         run: |
-          tap_dir="$(brew --repository "$GITHUB_REPOSITORY")"
-          cd "$tap_dir"
+          cd "$(brew --repository "$GITHUB_REPOSITORY")"
+          echo "formulae=$(ls Formula/*.rb | xargs -n1 basename | sed 's/\.rb$//' | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
 
-          for formula in Formula/*.rb; do
-            name="$(basename "$formula" .rb)"
-
-            # Extract current version and PyPI package name from the sdist URL
-            current_version="$(grep -m1 '^\s*url "' "$formula" | sed -n 's/.*\/\(.*\)\.tar\.gz".*/\1/p' | sed 's/.*-//')"
-            pypi_pkg="$(grep -m1 '^\s*url ".*files\.pythonhosted\.org' "$formula" | sed -n 's/.*\/\(.*\)\.tar\.gz".*/\1/p' | sed "s/-${current_version}$//")"
-
-            if [ -z "$pypi_pkg" ] || [ -z "$current_version" ]; then
-              echo "::warning::Could not parse PyPI info for $name, skipping"
-              continue
-            fi
-
-            echo "Checking $name (pypi: $pypi_pkg, current: $current_version)..."
-
-            # Query PyPI for latest version
-            latest="$(curl -sf "https://pypi.org/pypi/${pypi_pkg}/json" | python3 -c "import sys,json; print(json.load(sys.stdin)['info']['version'])")"
-
-            if [ -z "$latest" ]; then
-              echo "::warning::Could not fetch PyPI info for $pypi_pkg"
-              continue
-            fi
-
-            if [ "$current_version" = "$latest" ]; then
-              echo "$name is up to date ($current_version)"
-              continue
-            fi
-
-            echo "$name has update: $current_version -> $latest"
-
-            # Check if a PR already exists for this update
-            existing_pr="$(gh pr list --repo "$GITHUB_REPOSITORY" --head "${name}-${latest}" --state open --json number --jq '.[0].number')"
-            if [ -n "$existing_pr" ]; then
-              echo "PR #${existing_pr} already exists for $name $latest, skipping"
-              continue
-            fi
-
-            # Get new sdist URL and SHA256
-            sdist_info="$(curl -sf "https://pypi.org/pypi/${pypi_pkg}/${latest}/json" | python3 -c "
-          import sys, json
-          data = json.load(sys.stdin)
-          for u in data['urls']:
-              if u['packagetype'] == 'sdist':
-                  print(u['url'])
-                  print(u['digests']['sha256'])
-                  break
-          ")"
-            new_url="$(echo "$sdist_info" | head -1)"
-            new_sha="$(echo "$sdist_info" | tail -1)"
-
-            if [ -z "$new_url" ] || [ -z "$new_sha" ]; then
-              echo "::warning::Could not find sdist for $pypi_pkg $latest"
-              continue
-            fi
-
-            # Create branch
-            branch="${name}-${latest}"
-            git checkout -b "$branch" origin/main
-
-            # Update main package URL and SHA256
-            sed -i '' "s|^  url \".*${pypi_pkg}.*\"|  url \"${new_url}\"|" "$formula"
-            sed -i '' "/^  url \".*${pypi_pkg}/{ n; s/^  sha256 \".*\"/  sha256 \"${new_sha}\"/; }" "$formula"
-
-            # Remove bottle block
-            sed -i '' '/^  bottle do$/,/^  end$/d' "$formula"
-
-            # Update python resources
-            brew update-python-resources "$GITHUB_REPOSITORY/$name" || {
-              echo "::warning::brew update-python-resources failed for $name, using manual URL/SHA update only"
-            }
-
-            # Commit and push
-            git add "$formula"
-            git commit -m "${name}: update ${current_version} -> ${latest}"
-            git push origin "$branch"
-
-            # Create PR
-            gh pr create \
-              --repo "$GITHUB_REPOSITORY" \
-              --head "$branch" \
-              --title "${name} ${latest}" \
-              --body "$(cat <<EOF
-          Automated update of \`${name}\` from ${current_version} to ${latest}.
-
-          PyPI: https://pypi.org/project/${pypi_pkg}/${latest}/
-          EOF
-          )"
-
-            # Return to main for next formula
-            git checkout main
-          done
+      - name: Bump packages
+        uses: Homebrew/actions/bump-packages@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fork: false
+          formulae: ${{ steps.discover.outputs.formulae }}
