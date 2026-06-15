@@ -15,11 +15,19 @@ jobs:
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@main
 
+      - name: Configure git author
+        run: git config --global user.name "github-actions[bot]"
+
       - name: Discover formulae
         id: discover
         run: |
           cd "$(brew --repository "$GITHUB_REPOSITORY")"
-          echo "formulae=$(ls Formula/*.rb | xargs -n1 basename | sed 's/\.rb$//' | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
+          formulae=""
+          for f in Formula/*.rb; do
+            name="$(basename "$f")"
+            formulae+="${name%.rb} "
+          done
+          echo "formulae=$formulae" >> "$GITHUB_OUTPUT"
 
       - name: Bump packages
         uses: Homebrew/actions/bump-packages@main
