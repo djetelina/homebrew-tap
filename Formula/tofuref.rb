@@ -7,6 +7,14 @@ class Tofuref < Formula
   sha256 "7c6620d86783be041c900b5efb34a37c7ba3212140d9a7b119f22c00310968d8"
   license "MIT"
 
+  bottle do
+    root_url "https://github.com/djetelina/homebrew-tap/releases/download/tofuref-1.8.1"
+    rebuild 2
+    sha256 cellar: :any, arm64_sequoia: "181da8ed1b64b332b0d2496c7281c2cad368b8697e7e77a39f7bf5f62ce7faf2"
+    sha256 cellar: :any, arm64_sonoma:  "cdff1b4302cf22d918df0ca7f187b2537f021f4dc6a6e68c514798b3044226f6"
+    sha256 cellar: :any, x86_64_linux:  "70327eae5a0f4be1c23c79159160e5e0e5c5786da23889bd7f3deb496cfb8bdf"
+  end
+
   depends_on "libyaml"
   depends_on "python@3.14"
 
